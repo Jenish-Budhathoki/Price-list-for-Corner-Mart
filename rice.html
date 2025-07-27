@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Rice Prices</title>
+</head>
+<body>
+  <h1>Rice</h1>
+  <p>Cash Price: <span id="cash-price">Loading...</span></p>
+  <p>Card Price: <span id="card-price">Loading...</span></p>
+
+  <script>
+    const item = "rice";
+    const scriptUrl = "https://script.google.com/macros/s/AKfycbxmIJjtYV84S7AsNLwySfDXp_7OOJc4HkDZN2oDpEvJBIXf5D-nhR22Mrpd-BCEtCXM/exec";
+
+    fetch(scriptUrl + "?item=" + item)
+      .then(response => response.json())
+      .then(data => {
+        if (!data.error) {
+          document.getElementById("cash-price").textContent = "$" + data.cash;
+          document.getElementById("card-price").textContent = "$" + data.card;
+        } else {
+          document.body.innerHTML = data.error;
+        }
+      })
+      .catch(error => {
+        console.error("Fetch error:", error);
+        document.body.innerHTML = "Error loading prices.";
+      });
+  </script>
+</body>
+</html>
