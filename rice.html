@@ -2,17 +2,78 @@
 <html>
 <head>
   <title>Rice Prices</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #f8f9fa;
+      padding: 40px;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 30px;
+      color: #333;
+    }
+
+    table {
+      margin: 0 auto;
+      border-collapse: collapse;
+      width: 300px;
+      background-color: #ffffff;
+    }
+
+    th, td {
+      padding: 20px;
+      font-size: 1.3rem;
+      border: 2px solid #000; /* visible black border */
+    }
+
+    th {
+      font-weight: bold;
+      font-size: 1.4rem;
+      background-color: #e9ecef;
+    }
+
+    td {
+      font-weight: 600;
+      color: #007bff;
+    }
+
+    @media (max-width: 600px) {
+      table {
+        width: 90%;
+      }
+      th, td {
+        font-size: 1.1rem;
+        padding: 15px;
+      }
+      h1 {
+        font-size: 2rem;
+      }
+    }
+  </style>
 </head>
 <body>
+
   <h1>Rice</h1>
-  <p>Cash Price: <span id="cash-price">Loading...</span></p>
-  <p>Card Price: <span id="card-price">Loading...</span></p>
+
+  <table>
+    <tr>
+      <th>Cash Price</th>
+      <th>Credit Price</th>
+    </tr>
+    <tr>
+      <td id="cash-price">Loading...</td>
+      <td id="card-price">Loading...</td>
+    </tr>
+  </table>
 
   <script>
-    const item = "rice";
-    const scriptUrl = "https://script.google.com/macros/s/AKfycbxmIJjtYV84S7AsNLwySfDXp_7OOJc4HkDZN2oDpEvJBIXf5D-nhR22Mrpd-BCEtCXM/exec";
+    const item = "rice";  // Same as in the sheet
 
-    fetch(scriptUrl + "?item=" + item)
+    fetch("https://script.google.com/macros/s/AKfycbxmIJjtYV84S7AsNLwySfDXp_7OOJc4HkDZN2oDpEvJBIXf5D-nhR22Mrpd-BCEtCXM/exec?item=" + item)
       .then(response => response.json())
       .then(data => {
         if (!data.error) {
@@ -22,10 +83,11 @@
           document.body.innerHTML = data.error;
         }
       })
-      .catch(error => {
-        console.error("Fetch error:", error);
+      .catch(err => {
+        console.error("Fetch error:", err);
         document.body.innerHTML = "Error loading prices.";
       });
   </script>
+
 </body>
 </html>
